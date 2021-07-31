@@ -14,15 +14,15 @@ const SearchParams = () => {
 
   useEffect(() => {
     requestPets();
-    async function requestPets() {
-      const res = await fetch(
-        `http://pets-v2.dev-apis.com/pets?animal=${animal}&location=${location}&breed=${breed}`
-      );
-      const json = await res.json();
-      setPets(json.pets);
-    }
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
+  async function requestPets() {
+    const res = await fetch(
+      `http://pets-v2.dev-apis.com/pets?animal=${animal}&location=${location}&breed=${breed}`
+    );
+    const json = await res.json();
+    setPets(json.pets);
+  }
   useEffect(() => {
     requestBreeds();
     async function requestBreeds() {
@@ -49,7 +49,12 @@ const SearchParams = () => {
 
   return (
     <div className="search-params">
-      <form>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          requestPets();
+        }}
+      >
         <label htmlFor="location">
           Location
           <input
